@@ -1,44 +1,48 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./components/searchbar";
 import Items from "./components/items";
 import { nanoid } from "nanoid";
 
 function App() {
   const [search, setSearch] = useState({
+    id : nanoid(),
     checked: false,
-    value: "",
+    title: "",
     delete: false,
+    
   });
-  let id=nanoid()
+
+  const [todo, settodo] = useState([]);
+  
   const [data, setData] = useState([search]);
   function handleChange(e) {
-    const { value } = e.target;
+    const { value } = e.target.value;
     setData((prevItem) =>
       prevItem.map((prev) => ({
         ...prev,
-        value: value,
+        title: value,
       }))
     );
-    
-    
   }
-useEffect(()=>{
-  data.map(items=>localStorage.setItem('items',JSON.stringify(items)))
-},[data])
+  useEffect(() => {
+    data.map((items) => localStorage.setItem("items", JSON.stringify(items)));
+  }, [data]);
+
   function addItems() {
-  //  let localStorage.getItem(JSON.parse('items'))
-   return data.map(obj=> <Items key={id} value={obj.value}/>)
+    // //  let localStorage.getItem(JSON.parse('items'))
+    // let renderItem= data.map(obj=> <Items key={id} value={obj.value}/>)
+    settodo([...todo,data.map(item=>item.title)])
+
   }
- 
+
   return (
     <>
       <h2 className="text-center font-medium text-8xl text-gray-200">todos</h2>
-      <SearchBar
-        handleChange={handleChange}
-        addItems={addItems}
-      />
-     {/* {data && addItems()} */}
-      { data.map(obj=> <Items key={id} value={obj.value}/>)}
+      <SearchBar handleChange={handleChange} addItems={addItems} />
+      {/* {data && addItems()} */}
+      {todo.map((obj) => (
+        <Items key={obj.id} title={obj.title} />
+      ))}
     </>
   );
 }

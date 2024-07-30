@@ -4,7 +4,7 @@ const Items = (props) => {
       <div className="flex justify-between mt-10 w-[50%] border-b-2 pb-4">
         <div className="flex">
           <input type="checkbox" />
-          <div className="text-2xl text-gray-500 px-4">{props.value}</div>
+          <div className="text-2xl px-4">{props.title}</div>
         </div>
 
         <div className="text-end bg-slate-200 rounded-full w-10 mx-5">
