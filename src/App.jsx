@@ -6,6 +6,8 @@ import { nanoid } from "nanoid";
 function App() {
   const [input, setInput] = useState("");
   const [todo, setTodo] = useState([]);
+  const [styled,setStyled]=useState(false)
+
   function handleChange(e) {
     setInput(e.target.value);
   }
@@ -13,25 +15,24 @@ function App() {
     e.preventDefault();
     setTodo((prevTodo) => [
       ...prevTodo,
-      { id: nanoid(), isChecked: false, title: input, deleted: false},
+      { id: nanoid(), isChecked: styled, title: input, deleted: false},
     ]);
     setInput("");
   }
-// function handleChecked(e){
-// setTodo(prevTodo=>(
-//   prevTodo.map(todo=>{
-//     if(todo.isChecked){
-//       let styles
-// todo.tile?''
-//     }
-//     todo.isChecked?'line-through':'none'
-//   })
-// ))
-// }
+function handleChecked(id){
+  setTodo((prevTodo) => prevTodo.map(todo=>todo.id===id?({
+    ...todo,
+    isChecked:!todo.isChecked
+  }):todo));
+  // e.preventDefault()
+// setStyled(!styled)
+}
+
 function handleDelete(id){
   let newTodo=todo.filter(obj=>obj.id!==id)
   setTodo(newTodo)
 }
+
   return (
     <>
       <h2 className="text-center font-medium text-8xl text-gray-200">todos</h2>
@@ -39,8 +40,9 @@ function handleDelete(id){
         <SearchBar handleChange={handleChange} addItems={handleSubmit} />
         {todo.map((items) => (
           <Items key={items.id} 
-          // isChecked={handleChecked} 
+          isChecked={()=>handleChecked(items.id)} 
           title={items.title}
+          titleStyle={items.isChecked?'line-through':''}
            delete={()=>handleDelete(items.id)}/>
         ))}
       </form>

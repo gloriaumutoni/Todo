@@ -6,7 +6,7 @@ const Items = (props) => {
           <input type="checkbox" 
           onClick={props.isChecked}
           />
-          <div className="text-2xl px-4">{props.title}</div>
+          <div className={`text-2xl px-4 ${props.titleStyle}`}>{props.title}</div>
         </div>
 
         <div className="text-end bg-slate-200 rounded-full w-10 mx-5">
